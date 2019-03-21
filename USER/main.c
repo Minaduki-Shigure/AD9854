@@ -79,11 +79,21 @@ float Z2=0;
 	 //3：点频测量
 	 //4+：归零
 	 double fit;
-	 
+	 GPIO_SetBits(GPIOE,GPIO_Pin_0);
 	 SystemInit(); 	//系统时钟设置
+	 GPIO_SetBits(GPIOE,GPIO_Pin_0);
 	 delay_init();	    	 //延时函数初始化	  
-	 uart_init(9600);	 //串口初始化为9600
+	 delay_ms(200);
 	 AD9854Init();
+	 AD9854WriteFreqSingle(1000000);
+	 uart_init(9600);	 //串口初始化为9600
+	 //delay_ms(100);
+	 //AD9854Init();
+	 //AD9854WriteFreqSingle(1000000);
+	 //delay_ms(100);
+	 //AD9854Init();
+	 //AD9854WriteFreqSingle(1000000);
+	 //delay_ms(100);
 	 KEY_Init();
 	 Adc_Init();
 	 Adc2_Init();
@@ -366,7 +376,33 @@ float Z2=0;
 				LCD_ShowFloat(120,60,Amp,2,9,16);
 				LCD_ShowFloat(120,80,Phase,2,9,16);
 		 }
-		 AD9854SetAmp(3000,3000);
+		 
+		 if(mission!=3){
+				if(xMHz<250){
+					fit=864000/(267-0.235*xMHz);		//强行调整输出
+				}
+				else if(xMHz>290){
+					fit=864000/(146+0.233*xMHz);		//强调输出
+				}
+				else{
+					fit=4075;
+				}
+				if(fit>4095) fit=4095;		//如果溢出，那么将fit置为可用最大值
+			}
+			else{
+				if(SingleFreq<250){
+					fit=864000/(267-0.235*SingleFreq);		//强行调整输出
+				}
+				else if(SingleFreq>290){
+					fit=864000/(146+0.233*SingleFreq);		//强调输出
+				}
+				else{
+					fit=4075;
+				}
+				if(fit>4095) fit=4095;		//如果溢出，那么将fit置为可用最大值
+			}
+		 
+		 AD9854SetAmp(fit,fit);
 		 AD9854WriteFreqSingle(freq);	//单音输出频率
 	 }
   }

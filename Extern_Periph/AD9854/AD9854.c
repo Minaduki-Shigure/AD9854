@@ -240,7 +240,7 @@ void Update_AD9854(void)
 void AD9854IOReset(void)  //一次IO复位
 {
 	AD9854_IO_RESET_H;
-	delay_us(20);
+	delay_us(10);
 	AD9854_IO_RESET_L;  
 }
 //******************************************************************
@@ -254,14 +254,14 @@ void AD9854IOReset(void)  //一次IO复位
 void AD9854WriteCtR(unsigned char *ctr)   //设置寄存器，每次都要先写地址Ｔ傩词莠
 {
 	AD9854_CS_L;
-	delay_us(1);
+	delay_us(10);
 	AD9854IOReset();
 	AD9854WriteByte(addr+AD9854_CTR_REG);//先写地址
 	AD9854WriteByte(ctr);         // 写4个字节的数据,先发高位
 	AD9854WriteByte(ctr+1);
 	AD9854WriteByte(ctr+2);
 	AD9854WriteByte(ctr+3);	
-	delay_us(1);
+	delay_us(10);
 	AD9854_CS_H;
 }
 //******************************************************************
@@ -300,7 +300,7 @@ void AD9854PortInit(void)
 
 	GPIO_AD9854.GPIO_Mode=GPIO_Mode_Out_PP;    //推挽输出
 	//GPIO_AD9854.GPIO_OType=GPIO_OType_PP;      
-	GPIO_AD9854.GPIO_Speed=GPIO_Speed_50MHz;
+	GPIO_AD9854.GPIO_Speed=GPIO_Speed_10MHz;
 	//GPIO_AD9854.GPIO_PuPd = GPIO_PuPd_DOWN;  //下拉，对于输出似无影响
 
 	GPIO_AD9854.GPIO_Pin=AD9854_CS_Pin;
@@ -334,7 +334,8 @@ void AD9854PortInit(void)
 	AD9854_FSK_BPSK_HOLD_L;
 	AD9854_UPDATE_L;
 	AD9854_IO_RESET_L;
-	AD9854_RST_H;
+	//AD9854_RST_H;
+	AD9854_RST_L;
 }
 //******************************************************************
 
@@ -375,7 +376,7 @@ void AD9854SetAmp(uint16_t channel1Amp,uint16_t channel2Amp)
 void AD9854Reset(void)
 {
 	AD9854_RST_L;
-	delay_ms(2);
+	delay_ms(10);
 	AD9854_RST_H;
 	delay_ms(10);
 	AD9854_RST_L;
