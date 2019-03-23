@@ -377,32 +377,33 @@ float Z2=0;
 				LCD_ShowFloat(120,80,Phase,2,9,16);
 		 }
 		 
-		 if(mission!=3){
-				if(xMHz<250){
-					fit=864000/(267-0.235*xMHz);		//强行调整输出
-				}
-				else if(xMHz>290){
-					fit=864000/(146+0.233*xMHz);		//强调输出
-				}
-				else{
-					fit=4075;
-				}
-				if(fit>4095) fit=4095;		//如果溢出，那么将fit置为可用最大值
-			}
-			else{
-				if(SingleFreq<250){
-					fit=864000/(267-0.235*SingleFreq);		//强行调整输出
-				}
-				else if(SingleFreq>290){
-					fit=864000/(146+0.233*SingleFreq);		//强调输出
-				}
-				else{
-					fit=4075;
-				}
-				if(fit>4095) fit=4095;		//如果溢出，那么将fit置为可用最大值
-			}
-		 
-		 AD9854SetAmp(fit,fit);
+//		 if(mission!=3){
+//				if(xMHz<250){
+//					fit=864000/(267-0.235*xMHz);		//强行调整输出
+//				}
+//				else if(xMHz>290){
+//					fit=864000/(146+0.200*xMHz);		//强调输出
+//				}
+//				else{
+//					fit=4075;
+//				}
+//				if(fit>4095) fit=4095;		//如果溢出，那么将fit置为可用最大值
+//			}
+//			else{
+//				if(SingleFreq<250){
+//					fit=864000/(267-0.235*SingleFreq);		//强行调整输出
+//				}
+//				else if(SingleFreq>290){
+//					fit=864000/(146+0.233*SingleFreq);		//强调输出
+//				}
+//				else{
+//					fit=4075;
+//				}
+//				if(fit>4095) fit=4095;		//如果溢出，那么将fit置为可用最大值
+//			}
+//		 
+//		 AD9854SetAmp(fit,fit);
+		 AD9854SetAmp(3000,3000);
 		 AD9854WriteFreqSingle(freq);	//单音输出频率
 	 }
   }
